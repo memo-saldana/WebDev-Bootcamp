@@ -1,0 +1,16 @@
+img {
+	width: 30%;
+	margin: 1.66%;
+	float: left;
+}
+
+p {
+	font-family: 'Montserrat', sans-serif;
+	margin-left: 1.66%;
+	font-size: 23px;
+	font-weight: 700;
+	text-transform: uppercase;
+	border-bottom: 2px solid #F1F1F1;
+	width: 90%;
+	padding-bottom: 20px;
+}
