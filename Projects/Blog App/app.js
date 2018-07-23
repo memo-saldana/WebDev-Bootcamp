@@ -2,6 +2,7 @@ var express = require("express"),
 methodOverride = require("method-override"),
 bodyParser = require("body-parser"),
 mongoose = require("mongoose"),
+expressSanitizer = require("express-sanitizer");
 app = express();
 
 
@@ -9,7 +10,8 @@ app = express();
 mongoose.connect("mongodb://localhost:27017/blog_app", { useNewUrlParser: true });
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended: true}));	
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer());	
 app.use(methodOverride("_method"));
 
 //Mongoose model config
@@ -40,6 +42,9 @@ app.get("/blogs", function(req,res) {
 
 // CREATE
 app.post("/blogs", function(req,res) {
+
+	req.body.blog.body = req.sanitize(req.body.blog.body);
+	
 	Blog.create(req.body.blog, function(err,newBlog) {
 		if(err){
 			console.log(err);
