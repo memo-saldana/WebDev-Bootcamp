@@ -2,21 +2,16 @@ var express = require("express"),
 		app = express(),
 		bodyParser = require("body-parser"),
 		mongoose = require("mongoose");
+		Campground = require("./models/campground")
+		seedDB = require("./seeds");
+
 
 mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));	
 app.set("view engine","ejs");
 
-// SCHEMA
 
-var campgroundSchemma = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
-
-var Campground = mongoose.model("Campground", campgroundSchemma);
-
+seedDB();
 
 // Campground.create(
 // 	{
@@ -75,15 +70,15 @@ app.get("/campgrounds/new",function(req,res) {
 
 //SHOW
 app.get("/campgrounds/:id",function(req,res) {
-	Campground.findById(req.params.id, function(err, foundCamp) {
+	Campground.findById(req.params.id).populate("comments").exec(function(err, foundCamp) {
 		if(err){
 			console.log(err);
 		} else {
+			console.log(foundCamp);
 			res.render("show", {campground: foundCamp});
 		}
 	});
-});
-
+});	
 
 
 app.listen(3000,function() {
