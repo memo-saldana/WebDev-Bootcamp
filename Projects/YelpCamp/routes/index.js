@@ -37,8 +37,8 @@ router.post("/login", passport.authenticate("local",
 		successRedirect: "/campgrounds",
 		failureRedirect: "/login"
 	}),function(req,res) {
-	res.send("LOGIN LOGIC")
-})
+
+});
 
 // logout route
 
