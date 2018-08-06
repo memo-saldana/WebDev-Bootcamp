@@ -18,20 +18,23 @@ router.get("/new",isLoggedIn, function(req,res) {
 	})
 });
 	
-
+// CREATE
 router.post("/",isLoggedIn, function(req,res) {
 	Campground.findById(req.params.id, function(err,campground) {
 		if(err){
 			console.log(err);
 			res.render("/campgrounds");
 		} else {
-			console.log(req.body.comment);
 			Comment.create(req.body.comment, function(err,comment) {
 				if(err){
 					console.log(err);
 				} else {
+					comment.author.id = req.user._id;
+					comment.author.username = req.user.username;
+					comment.save();
 					campground.comments.push(comment);
 					campground.save();
+					console.log(comment)
 					res.redirect("/campgrounds/" + campground._id);
 				}
 			})
