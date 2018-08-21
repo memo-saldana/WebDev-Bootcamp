@@ -43,6 +43,14 @@ router.post("/",isLoggedIn, function(req,res) {
 	})
 })
 
+// EDIT
+router.get("/:comment_id/edit", function(req,res) {
+	
+	req.params.comment_id
+	res.render("comments/edit",{campground_id: req.params.id })
+	// res.render("comments/edit");
+})
+
 // middleware
 function isLoggedIn(req,res,next) {
 	if(req.isAuthenticated()){
